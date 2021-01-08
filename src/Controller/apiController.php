@@ -11,6 +11,7 @@ namespace App\Controller;
 use App\Repository\RedirectDataRepository;
 use App\Repository\ClickStatisticsRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,15 +39,20 @@ class apiController extends AbstractController
     /** @var ClickStatisticsRepository */
     private $clickStatisticsRepository;
 
+    /** @var LoggerInterface $logger */
+    private $logger;
+
     /**
      * apiController constructor.
      * @param RedirectDataRepository $redirectDataRepository
      * @param ClickStatisticsRepository $clickStatisticsRepository
+     * @param LoggerInterface $logger
      */
-    public function __construct(RedirectDataRepository $redirectDataRepository, ClickStatisticsRepository $clickStatisticsRepository)
+    public function __construct(RedirectDataRepository $redirectDataRepository, ClickStatisticsRepository $clickStatisticsRepository, LoggerInterface $logger)
     {
         $this->redirectDataRepository = $redirectDataRepository;
         $this->clickStatisticsRepository = $clickStatisticsRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -72,6 +78,7 @@ class apiController extends AbstractController
     {
         /*$date_from = $request->query->get('date_from').' 00:00:00';
         $date_to = $request->query->get('$date_to').' 23:59:59';*/
+        $id_smart_campaign = (int)$id_smart_campaign;
         $redirect_data = $this->redirectDataRepository->findBySmartCampaign($id_smart_campaign);
         $responseData = array();
         $using_smart = false;
@@ -93,7 +100,7 @@ class apiController extends AbstractController
             $responseData['using_smart'] = true;
         }
         if($redirect_data != NULL or !empty($redirect_data)){
-            return new JsonResponse(['Success' => true, 'data' => $responseData]);
+            return new JsonResponse(['Success' => true, 'date' => date("Y-m-d H:i:s"), 'data' => $responseData]);
         } else {
             return new JsonResponse(['Success' => false, 'info' => 'Get data api of MSS System']);
         }
@@ -111,6 +118,7 @@ class apiController extends AbstractController
         $content = $request->request->all();
         $date_from = $content['date_from'];
         $date_to = $content['date_to'];
+        $id_smart_insertion = (int)$id_smart_insertion;
         $var = $this->getDoctrine()->getManager()
             ->getConnection()
             ->prepare('call getStatisticsInsertionWithData('.$id_smart_insertion.',"'.$date_from.'","'.$date_to.'")');
@@ -121,7 +129,7 @@ class apiController extends AbstractController
         }
         //file_put_contents('data.txt', var_export($redirect_data, true));
         if($redirect_data != NULL){
-            return new JsonResponse(['Success' => true, 'data' => $redirect_data]);
+            return new JsonResponse(['Success' => true, 'date' => date("Y-m-d h:i:s"), 'data' => $redirect_data]);
         } else {
             return new JsonResponse(['Success' => false, 'info' => 'Get data api of MSS System']);
         }
@@ -138,7 +146,7 @@ class apiController extends AbstractController
     {
         //$content = $request->getContent();
         $content = $request->request->all();
-        //file_put_contents('filename.txt', var_export($content, true));
+        //file_put_contents('RedirectAddData-file.txt', var_export($content, true));
         if (empty($content) or $content == NULL) {
             return new JsonResponse(['Success' => false, 'info' => new BadRequestHttpException()]);
         }
@@ -152,14 +160,21 @@ class apiController extends AbstractController
             $redirectData->setUrl($content['url']);
             $redirectData->setIdSmartCampaign($content['id_campaign_smart']);
             $redirectData->setIdTracklyCampaign($content['id_campaign_trackly']);
-            $redirectData->setIdLiwochaCampaign($content['id_campaign_liwocha']);
+            $redirectData->setIdSatakuCampaign($content['id_campaign_sataku']);
             $redirectData->setDate(\DateTime::createFromFormat('Y-m-d H:i:s',$data->format('Y-m-d H:i:s')));
             $redirectData->setDeleted(0);
             $redirectData->setUsingSmart($content['using_smart']);
-            $entityManager->persist($redirectData);
-            $entityManager->flush();
 
-            return new JsonResponse(['Success' => true,'info' => 'Success add data to api', 'id_redirect' => $redirectData->getId()]);
+            try{
+                $entityManager->persist($redirectData);
+                $entityManager->flush();
+
+                return new JsonResponse(['Success' => true,'info' => 'Success add data to api', 'id_redirect' => $redirectData->getId()]);
+            }catch (\Exception $e){
+                $this->logger->info('Error when add Redirect Link');
+                $this->logger->info($e);
+                return new JsonResponse(['Success' => false,'info' => $e, 'id_redirect' => 0]);
+            }
         } else {
             return new JsonResponse(['Success' => false, 'info' => 'No id campaign']);
         }
@@ -212,8 +227,14 @@ class apiController extends AbstractController
             $redirect_update->setUrl($content['url']);
             $redirect_update->setUsingSmart($content['using_smart']);
 
-            $entityManager->persist($redirect_update);
-            $entityManager->flush();
+            try{
+                $entityManager->persist($redirect_update);
+                $entityManager->flush();
+            }catch (\Exception $e){
+                $this->logger->info('Error when update Redirect Link');
+                $this->logger->info($e);
+                return new JsonResponse(['Success' => false,'info' => $e, 'id_redirect' => 0]);
+            }
 
             return new JsonResponse(['Success' => true,'info' => 'Success update redirect in api']);
         } else {

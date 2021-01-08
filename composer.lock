@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d00cc53473c8fe81ca415d4e4023c0fe",
+    "content-hash": "12b361ae3cbb0d4042ab2fa57dcfb0e6",
     "packages": [
         {
             "name": "deployer/recipes",
@@ -61,6 +61,7 @@
                 "slack",
                 "yarn"
             ],
+            "abandoned": true,
             "time": "2019-06-27T06:47:18+00:00"
         },
         {
@@ -2533,6 +2534,63 @@
                 "rest"
             ],
             "time": "2020-03-31T10:05:08+00:00"
+        },
+        {
+            "name": "nelmio/cors-bundle",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nelmio/NelmioCorsBundle.git",
+                "reference": "be4d5824caebc86da9e224e935e02e1201b3ea54"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nelmio/NelmioCorsBundle/zipball/be4d5824caebc86da9e224e935e02e1201b3ea54",
+                "reference": "be4d5824caebc86da9e224e935e02e1201b3ea54",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/framework-bundle": "^4.3 || ^5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.2",
+                "symfony/phpunit-bridge": "^4.3 || ^5.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Nelmio\\CorsBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nelmio",
+                    "homepage": "http://nelm.io"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://github.com/nelmio/NelmioCorsBundle/contributors"
+                }
+            ],
+            "description": "Adds CORS (Cross-Origin Resource Sharing) headers support in your Symfony application",
+            "keywords": [
+                "api",
+                "cors",
+                "crossdomain"
+            ],
+            "time": "2020-07-22T11:44:28+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -6264,12 +6322,13 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^7.2.5",
-        "ext-pdo": "^7.3",
+        "ext-pdo": "*",
         "ext-ctype": "*",
-        "ext-curl": "^7.3",
+        "ext-curl": "*",
         "ext-iconv": "*",
-        "ext-json": "^1.7",
-        "ext-openssl": "^7.3"
+        "ext-json": "*",
+        "ext-openssl": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
