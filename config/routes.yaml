@@ -1,0 +1,23 @@
+#index:
+#    path: /
+#    controller: App\Controller\indexController::index
+#
+#api_index:
+#  path: /api/
+#  controller: App\Controller\apiController::index
+#
+#api_get_data:
+#  path: /api/get_urls/{id_smart_campaign}
+#  controller: App\Controller\apiController::getData
+#
+#api_save_redirect_data:
+#  path: /api/save_redirect_data
+#  controller: App\Controller\apiController::save_redirect_data
+#
+#tracking_index:
+#  path: /tracking/
+#  controller: App\Controller\trackingController::index
+#
+#tracking_click:
+#  path: /tracking/click/{company_id}/{id_smart_insertion}/{id_redirect}/{timestamp}
+#  controller: App\Controller\trackingController::click
