@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(name="index_browser", columns={"browser"}),
  *     @ORM\Index(name="index_operating_system", columns={"operating_system"}),
  *     @ORM\Index(name="index_device", columns={"device"}),
+ *     @ORM\Index(name="index_search", columns={"id_smart_insertion","redirect_id","date"})
  * })
  */
 class ClickStatistics
