@@ -56,10 +56,10 @@ class RedirectDataRepository extends ServiceEntityRepository
      * @return RedirectData[] Returns an array of RedirectData objects
      */
 
-    public function findByLiwochaCampaign($value)
+    public function findBySatakuCampaign($value)
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.id_liwocha_campaign = :val')
+            ->andWhere('r.id_sataku_campaign = :val')
             ->andWhere('r.delete = 0')
             ->setParameter('val', $value)
             ->orderBy('r.id', 'DESC')

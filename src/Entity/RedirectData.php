@@ -10,8 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(name="index_id", columns={"id"}),
  *     @ORM\Index(name="index_smart", columns={"id_smart_campaign"}),
  *     @ORM\Index(name="index_trackly", columns={"id_trackly_campaign"}),
- *     @ORM\Index(name="index_liwocha", columns={"id_liwocha_campaign"}),
+ *     @ORM\Index(name="index_sataku", columns={"id_sataku_campaign"}),
  *     @ORM\Index(name="index_date", columns={"date"}),
+ *     @ORM\Index(name="index_search_redirect", columns={"id","deleted","name","lp","id_smart_campaign","id_trackly_campaign","id_sataku_campaign"}),
  * })
  */
 class RedirectData
@@ -24,7 +25,7 @@ class RedirectData
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=800)
+     * @ORM\Column(type="string", length=400)
      */
     private $name;
 
@@ -51,7 +52,7 @@ class RedirectData
     /**
      * @ORM\Column(type="bigint", nullable=true, options={"unsigned":true, "default":0})
      */
-    private $id_liwocha_campaign;
+    private $id_sataku_campaign;
 
     /**
      * @ORM\Column(type="datetime", options={"default":"CURRENT_TIMESTAMP"})
@@ -133,14 +134,14 @@ class RedirectData
         return $this;
     }
 
-    public function getIdLiwochaCampaign(): ?string
+    public function getIdSatakuCampaign(): ?string
     {
-        return $this->id_liwocha_campaign;
+        return $this->id_sataku_campaign;
     }
 
-    public function setIdLiwochaCampaign(?string $id_liwocha_campaign): self
+    public function setIdSatakuCampaign(?string $id_sataku_campaign): self
     {
-        $this->id_liwocha_campaign = $id_liwocha_campaign;
+        $this->id_sataku_campaign = $id_sataku_campaign;
 
         return $this;
     }
