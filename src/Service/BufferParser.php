@@ -242,8 +242,9 @@ class BufferParser extends AbstractController
                     $datas = $data[$i]['date'] ? new \DateTime($data[$i]['date']) : new \DateTime('now');
                     $dataTime = new \DateTime(date('Y-m-d H:i:s', $data[$i]['timestamp']));
                     $statistics = new ClickStatistics();
-                    $statistics->setRedirectId($data[$i]['redirect_id']);
+                    $statistics->setRedirectId($data[$i]['redirect_id'] ? $data[$i]['redirect_id'] : 0);
                     $statistics->setIdSmartInsertion($data[$i]['id_smart_insertion']);
+                    $statistics->setLp($data[$i]['lp'] ? $data[$i]['lp'] : 0);
                     $statistics->setTimestamp(\DateTime::createFromFormat('Y-m-d H:i:s',$dataTime->format('Y-m-d H:i:s')));
                     $statistics->setIdCompany($data[$i]['id_company']);
                     $statistics->setIpv4($data[$i]['ipv4']);

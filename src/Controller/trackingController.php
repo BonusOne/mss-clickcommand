@@ -83,4 +83,29 @@ class trackingController extends AbstractController
 
         return $this->redirect($redirect_url, 302);
     }
+
+    /**
+     * @Route("/click/{company_id}/{id_smart_insertion}/{id_smart_campaign}/{lp}/{timestamp}/", name="click_lp", methods={"GET"})
+     * @param Request   $request
+     * @param int       $company_id     Company ID -> CompanyService::TYPE_
+     * @param int       $id_smart_insertion       Smart ID insertion is a ID insertion of SmartAdServer
+     * @param int       $timestamp      Timestamp of datetime
+     * @param int       $lp    LP of redirect
+     * @return JsonResponse|Response
+     */
+    public function clickLp(Request $request, int $company_id, int $id_smart_insertion, int $id_smart_campaign, int $lp, int $timestamp)
+    {
+        $data['id_smart_insertion'] = $id_smart_insertion;
+        $data['id_company'] = $company_id;
+        $data['timestamp'] = $timestamp;
+        $data['lp'] = $lp;
+        $data['useragent'] = $request->headers->get('User-Agent');
+
+        $redirect_data = $this->redirectDataRepository->findOneBy(['id_smart_campaign' => $id_smart_campaign, 'lp' => $lp]);
+        $redirect_url = $redirect_data->getUrl();
+
+        $this->activity->addRow($data);
+
+        return $this->redirect($redirect_url, 302);
+    }
 }

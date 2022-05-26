@@ -42,6 +42,7 @@ class BufferRow
         $this->params = [
             'id_smart_insertion' => null,
             'id_company' => null,
+            'lp' => null,
             'timestamp' => null,
             'ipv4' => null,
             'date' => null,
@@ -129,7 +130,18 @@ class BufferRow
         $this->setParam('timestamp', $this->getInputData('timestamp'));
         $this->setParam('date', $this->getInputData('date'));
         $this->setParam('referer', $this->getInputData('referer'));
-        $this->setParam('redirect_id', $this->getInputData('redirect_id'));
+
+        if ($this->getInputData('redirect_id') !== null) {
+            $this->setParam('redirect_id', $this->getInputData('redirect_id'));
+        } else {
+            $this->setParam('redirect_id', null);
+        }
+
+        if ($this->getInputData('lp') !== null) {
+            $this->setParam('lp', $this->getInputData('lp'));
+        } else {
+            $this->setParam('lp', null);
+        }
 
         if ($this->getInputData('ip') !== null) {
             //$this->setParam('ipv4', ip2long($this->getInputData('ip')));

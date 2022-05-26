@@ -44,6 +44,11 @@ class ClickStatistics
     private $id_company;
 
     /**
+     * @ORM\Column(type="integer", options={"unsigned":true, "default":0})
+     */
+    private $lp;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $timestamp;
@@ -125,6 +130,18 @@ class ClickStatistics
     public function setIdCompany(int $id_company): self
     {
         $this->id_company = $id_company;
+
+        return $this;
+    }
+
+    public function getLp(): ?int
+    {
+        return $this->lp;
+    }
+
+    public function setLp(int $lp): self
+    {
+        $this->lp = $lp;
 
         return $this;
     }
