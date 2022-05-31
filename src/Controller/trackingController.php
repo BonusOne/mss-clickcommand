@@ -85,7 +85,7 @@ class trackingController extends AbstractController
     }
 
     /**
-     * @Route("/click/{company_id}/{id_smart_insertion}/{id_smart_campaign}/{lp}/{timestamp}/", name="click_lp", methods={"GET"})
+     * @Route("/click_lp/{company_id}/{id_smart_insertion}/{id_smart_campaign}/{lp}/{timestamp}/", name="click_lp", methods={"GET"})
      * @param Request   $request
      * @param int       $company_id     Company ID -> CompanyService::TYPE_
      * @param int       $id_smart_insertion       Smart ID insertion is a ID insertion of SmartAdServer
@@ -103,6 +103,7 @@ class trackingController extends AbstractController
 
         $redirect_data = $this->redirectDataRepository->findOneBy(['id_smart_campaign' => $id_smart_campaign, 'lp' => $lp]);
         $redirect_url = $redirect_data->getUrl();
+        $data['redirect_id'] = $redirect_data->getId();
 
         $this->activity->addRow($data);
 

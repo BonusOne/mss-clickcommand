@@ -21,3 +21,7 @@
 #tracking_click:
 #  path: /tracking/click/{company_id}/{id_smart_insertion}/{id_redirect}/{timestamp}
 #  controller: App\Controller\trackingController::click
+#
+#tracking_click_lp:
+#  path: /tracking/click_lp/{company_id}/{id_smart_insertion}/{id_smart_campaign}/{lp}/{timestamp}
+#  controller: App\Controller\trackingController::clickLp
