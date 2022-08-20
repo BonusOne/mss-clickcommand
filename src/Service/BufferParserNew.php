@@ -10,7 +10,7 @@ namespace App\Service;
 
 use App\Entity\ClickStatistics;
 use App\Service\BufferRow;
-use App\Service\MainBuffer;
+use App\Service\MainBufferNew;
 use Psr\Log\LoggerInterface;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -18,12 +18,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Service\CompanyService;
 
-class BufferParser extends AbstractController
+class BufferParserNew extends AbstractController
 {
     /** @var ObjectManager $entityManager */
     private $entityManager;
 
-    /** @var MainBuffer $mainBuffer */
+    /** @var MainBufferNew $mainBuffer */
     private $mainBuffer;
 
     /** @var BufferRow $bufferRow */
@@ -35,7 +35,7 @@ class BufferParser extends AbstractController
     private $bufferDirectory;
     private $projectDir;
 
-    public function __construct(LoggerInterface $logger, MainBuffer $mainBuffer, BufferRow $bufferRow, string $projectDir)
+    public function __construct(LoggerInterface $logger, MainBufferNew $mainBuffer, BufferRow $bufferRow, string $projectDir)
     {
         $this->logger = $logger;
         //$this->entityManager = $this->getDoctrine()->getManager()->getConnection();
@@ -151,7 +151,6 @@ class BufferParser extends AbstractController
      */
     public function buildData(OutputInterface $output)
     {
-
         if (!$this->prepareBufferFileToParsing()) {
             $output->writeln("No buffer file found");
 

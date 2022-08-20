@@ -10,7 +10,7 @@ namespace App\Service;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 
-class MainBuffer
+class MainBufferNew
 {
     /** @var KernelInterface $appKernel */
     private $appKernel;
@@ -47,7 +47,7 @@ class MainBuffer
      */
     public function getTempBufferFilePath()
     {
-        return $this->bufferDirectory. 'temp_action_buffer.bin';
+        return $this->bufferDirectory. 'temp_action_buffer_new.bin';
     }
 
     /**
@@ -55,7 +55,7 @@ class MainBuffer
      */
     public function getTempBufferSplitFilePath()
     {
-        return $this->bufferDirectory. 'temp_action_split_buffer.bin';
+        return $this->bufferDirectory. 'temp_action_split_buffer_new.bin';
     }
 
     /**
